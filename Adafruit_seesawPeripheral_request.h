@@ -51,6 +51,8 @@ void requestEvent(void) {
     if (module_cmd >= SEESAW_ADC_CHANNEL_OFFSET) {
       Wire.write(g_bufferedADCRead >> 8);
       Wire.write(g_bufferedADCRead);
+      Adafruit_seesawPeripheral_clearIRQ();
+      lastReturnedValue = g_bufferedADCRead;
     } else if (module_cmd == SEESAW_ADC_STATUS) {
       Wire.write(g_adcStatus);
     }

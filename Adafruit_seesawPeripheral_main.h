@@ -142,12 +142,19 @@ void Adafruit_seesawPeripheral_pinChangeDetect(void) {
 }
 #endif
 
+int lastReturnedValue = 0;
+
 void Adafruit_seesawPeripheral_run(void) {
 #if CONFIG_INTERRUPT && ! USE_PINCHANGE_INTERRUPT
   // we dont .need. to use the IRQ system which takes a lot of flash and
   // doesn't uniquely identify pins anyways
   if (IRQ_debounce_cntr == 0) {
     Adafruit_seesawPeripheral_pinChangeDetect();
+    int currentAnalogValue = analogRead(18);
+    if(currentAnalogValue > lastReturnedValue + 1 || currentAnalogValue < lastReturnedValue - 1)
+    {
+      Adafruit_seesawPeripheral_setIRQ();
+    }
     IRQ_debounce_cntr = IRQ_DEBOUNCE_TICKS;
   }
 #endif

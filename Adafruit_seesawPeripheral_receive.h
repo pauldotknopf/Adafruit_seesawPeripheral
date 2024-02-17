@@ -148,8 +148,11 @@ void receiveEvent(int howMany) {
         SEESAW_DEBUG(adcpin);
         SEESAW_DEBUG(F(": "));
         g_bufferedADCRead = analogRead(adcpin);
+
         SEESAW_DEBUGLN(g_bufferedADCRead);
         g_adcStatus = 0x0;
+
+        g_irqFlags = 0;
       }
     }
   }
